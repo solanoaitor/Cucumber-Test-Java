@@ -1,18 +1,18 @@
-Feature: Prueba una página usando Selenium WebDriver
+Feature: Text Box
   Para evaluar Selenium Framework
-  Como desarrollador
-  Quiero interactuar con mi web
+  Escribimos en texto y realizaremos todo el Text Box
 
-  Scenario: En mi sitio web se puede mostrar listas
+  Scenario: En mi web se puede mostrar Elementos
     When Vamos a la página de inicio
-    Then Deberia ver un apartado "middle-navigation__item m" text
+    Then Deberia ver un apartado "Elements"
 
-  Scenario: Mi sitio web se puede navegar y buscar boton
-    When Vamos a la página de inicio
-    Then Deberia ver un "user-options__button js-register" button
-
-  Scenario: Mi sitio web tiene un boton
+  Scenario: En mi web se puede escribir un un campo
     Given Vamos a la página de inicio
-    When Hago click en button
-    #Then Deberia ver un " Actualidad " text
-    #And Hago una captura de pantalla con el filename "POWERED BY"
+    When Deberia escribir "Aitor"
+    Then Hago click en el siguiente apartado
+
+  Scenario: En mi web se puede escribir en un campo el email y borrarlo
+    Given Vamos a la página de inicio
+    When Deberia escribir "aitor@aitor.com"
+    Then Borro "email"
+    And Hago una captura de pantalla con el filename "Captura"

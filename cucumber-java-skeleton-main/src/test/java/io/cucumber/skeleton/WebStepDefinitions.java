@@ -1,5 +1,6 @@
 package io.cucumber.skeleton;
 
+
 import io.cucumber.java.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -17,51 +18,74 @@ public class WebStepDefinitions {
      *       The version must match with the version of your Chrome browser
      */
 
-    private WebDriver driver;
+    private static WebDriver driver;
     private Scenario scenario;
 
-    @Before
-    public void before(Scenario scenario) {
-        this.scenario = scenario;
+    @BeforeAll
+    public static void setUp() {
+        //this.scenario = scenario;
         System.setProperty("webdriver.chrome.driver", "/Users/aitorsolano/Downloads/chromedriver");
         driver = new ChromeDriver();
     }
 
+    @Before
+    public void before(Scenario scenario){
+        this.scenario = scenario;
+    }
+
     @Given("Vamos a la página de inicio")
     public void yoVoyPaginaPrincipal() {
-        driver.get("https://www.fcbarcelona.es/es/");
+        driver.get("https://demoqa.com/text-box");
     }
 
-    @Then("Deberia ver un apartado {string} button/text")
-    public void yoDeberiaVerApartado(String text) {
-        By byXPath = By.xpath("//div[starts-with(@class,'" + text + "')]//li[@class='middle-navigation__sub-item']");
-        //By byXPath = By.xpath("//div[@class='" + text + "')]");
+    @Then("Deberia ver un apartado {string}")
+    public void yoDeberiaVerApartado(String element) {
 
-        boolean present = driver.findElements(byXPath).size() > 0;
-        Assertions.assertTrue(present);
+        if (element.equals("Elements")){
+            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
+            boolean present = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(present);
+        }
     }
 
-    @Then("Deberia ver un {string} button/text")
-    public void yoDeberiaVerBoton(String text) {
-        By byXPath = By.xpath("//button[contains(@class,'" + text + "')]");
-        boolean present = driver.findElements(byXPath).size() > 0;
-        Assertions.assertTrue(present);
+    @When("Deberia escribir {string}")
+    public void yoEscribo(String texto) {
+        if (texto.equals("Aitor")){
+            WebElement elemento = driver.findElement(By.id("userName"));
+            elemento.sendKeys(texto);
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Aitor"));
+        }
+        if (texto.equals("aitor@aitor.com")){
+            WebElement elemento = driver.findElement(By.id("userEmail"));
+            elemento.sendKeys(texto);
+            Assertions.assertTrue(elemento.getAttribute("value").contains("aitor@aitor.com"));
+        }
+
     }
 
-    @When("Hago click en button")
-    public void yoClicoBoton() {
-        //driver.findElement(By.linkText(button_text)).click();
-        driver.findElement(By.cssSelector("button[class='user-options__button js-register']")).click();
+    @Then("Borro {string}")
+    public void yoBorroLoEscrito(String borro) {
+
+        if (borro.equals("email")){
+        WebElement elemento = driver.findElement(By.id("userEmail"));
+        elemento.click();
+        }
     }
 
-    /*@And("Hago una captura de pantalla con el filename {string}")
-    public void yoHagoScreenshotConFilename(String filename) {
+    @Then("Hago click en el siguiente apartado")
+    public void yoClicoSiguienteApartado() {
+        WebElement boton = driver.findElement(By.id("userEmail"));
+        boton.click();
+    }
+
+    @And("Hago una captura de pantalla con el filename {string}")
+    public void yoHagoScreenshotConFileName(String filename) {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", "filename");
-    }*/
+    }
 
-    @After()
-    public void cierroNavegador() {
+    @AfterAll()
+    public static void tearDown() {
         driver.quit();
     }
 
