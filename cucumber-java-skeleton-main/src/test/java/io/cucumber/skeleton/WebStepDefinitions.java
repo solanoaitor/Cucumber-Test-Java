@@ -35,20 +35,81 @@ public class WebStepDefinitions {
 
     @Given("Vamos a la página de inicio")
     public void yoVoyPaginaPrincipal() {
-        driver.get("https://demoqa.com/text-box");
+        driver.get("https://demoqa.com/");
+    }
+
+    @When("Clicamos en {string}")
+    public void clicarEn(String elementoClicado){
+        if (elementoClicado.equals("Elements")) {
+            WebElement boton = driver.findElement(By.className("card-up"));
+            boton.click();
+        }
+        if (elementoClicado.equals("Text-Box")) {
+            WebElement boton = driver.findElement(By.id("item-0"));
+            boton.click();
+        }
+        if (elementoClicado.equals("Check-Box")) {
+            WebElement boton = driver.findElement(By.id("item-1"));
+            boton.click();
+        }
+        if (elementoClicado.equals("Flecha-Home")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@title='Toggle']"));
+            boton.click();
+        }
+        if (elementoClicado.equals("Home")) {
+            WebElement boton = driver.findElement(By.className("rct-checkbox"));
+            boton.click();
+        }
+        if (elementoClicado.equals("Documents")) {
+            driver.findElement(By.xpath(".//span[contains(text(),'Documents')]")).click();
+        }
     }
 
     @Then("Deberia ver un apartado {string}")
     public void yoDeberiaVerApartado(String element) {
-
         if (element.equals("Elements")){
-            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
-            boolean present = driver.findElements(byXPath).size() > 0;
-            Assertions.assertTrue(present);
+            By byXPath = By.xpath(".//h5[contains(text(),'Elements')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Forms")){
+            By byXPath = By.xpath(".//h5[contains(text(),'Forms')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Alerts, Frame & Windows")){
+            By byXPath = By.xpath(".//h5[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Widgets")){
+            By byXPath = By.xpath(".//h5[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Interactions")){
+            By byXPath = By.xpath(".//h5[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Home")){
+            By byXPath = By.xpath(".//span[contains(text(),'Home')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
         }
     }
 
-    @When("Deberia escribir {string}")
+
+    @Then("No debería ver {string}")
+    public void yoNoDeberiaVerApartado(String element){
+        if (element.equals("Documents")){
+            By byXPath = By.xpath(".//span[contains(text(),'Documents')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertFalse(encontrado);
+        }
+    }
+
+    @When("Yo escribo {string}")
     public void yoEscribo(String texto) {
         if (texto.equals("Aitor")){
             WebElement elemento = driver.findElement(By.id("userName"));
@@ -72,16 +133,23 @@ public class WebStepDefinitions {
         }
     }
 
-    @Then("Hago click en el siguiente apartado")
-    public void yoClicoSiguienteApartado() {
-        WebElement boton = driver.findElement(By.id("userEmail"));
-        boton.click();
+    @Then("Hago click en el siguiente apartado {string}")
+    public void yoClicoSiguienteApartado(String apartado) {
+        if (apartado.equals("Email")){
+            WebElement boton = driver.findElement(By.id("userEmail"));
+            boton.click();
+        }
+        if (apartado.equals("Text-Box")){
+            WebElement boton = driver.findElement(By.id("item-0"));
+            boton.click();
+        }
+
     }
 
     @And("Hago una captura de pantalla con el filename {string}")
     public void yoHagoScreenshotConFileName(String filename) {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        scenario.attach(screenshot, "image/png", "filename");
+        scenario.attach(screenshot, "image/png", filename);
     }
 
     @AfterAll()
