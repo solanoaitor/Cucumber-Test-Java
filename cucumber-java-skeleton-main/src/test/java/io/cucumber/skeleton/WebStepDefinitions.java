@@ -94,7 +94,24 @@ public class WebStepDefinitions {
             boolean botonEncontrado = boton.isEnabled();
             Assertions.assertTrue(botonEncontrado);
         }
-
+        if (elementoClicado.equals("Editar")) {
+            WebElement boton = driver.findElement(By.id("edit-record-1"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("BorrarAlden")) {
+            WebElement boton = driver.findElement(By.id("delete-record-2"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("BorrarKierra")) {
+            WebElement boton = driver.findElement(By.id("delete-record-3"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
     }
 
     @Then("Deberia ver un apartado {string}")
@@ -154,6 +171,16 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(byXPath).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("Alden")){
+            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Kierra")){
+            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
     }
 
     @Then("No debería ver {string}")
@@ -170,6 +197,16 @@ public class WebStepDefinitions {
         }
         if (element.equals("You have selected")){
             By byXPath = By.xpath(".//p[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertFalse(encontrado);
+        }
+        if (element.equals("Alden")){
+            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
+            boolean encontrado = driver.findElements(byXPath).size() > 0;
+            Assertions.assertFalse(encontrado);
+        }
+        if (element.equals("Kierra")){
+            By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
             boolean encontrado = driver.findElements(byXPath).size() > 0;
             Assertions.assertFalse(encontrado);
         }
@@ -218,6 +255,18 @@ public class WebStepDefinitions {
             WebElement elemento = driver.findElement(By.id("department"));
             elemento.sendKeys("Informática");
             Assertions.assertTrue(elemento.getAttribute("value").contains("Informática"));
+        }
+        if (texto.equals("Andres")){
+            WebElement elemento = driver.findElement(By.id("firstName"));
+            elemento.clear();
+            elemento.sendKeys("Andres");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Andres"));
+        }
+        if (texto.equals("Garcia")){
+            WebElement elemento = driver.findElement(By.id("lastName"));
+            elemento.clear();
+            elemento.sendKeys("Garcia");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Garcia"));
         }
     }
 
