@@ -9,11 +9,6 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import java.time.Duration;
-import java.util.concurrent.TimeUnit;
 
 public class WebStepDefinitions {
 
@@ -40,7 +35,27 @@ public class WebStepDefinitions {
 
     @Given("Vamos a la página de inicio")
     public void yoVoyPaginaPrincipal() {
-        driver.get("https://demoqa.com/");
+        driver.get("https://demoqa.com");
+    }
+
+    /**
+     * Método para clicar el boton con un CAPTCHA y hacerlo manual, tendremos 20 segundos
+     * @param boton: le pasaremos el nombre del boton
+     */
+    @Then("Haremos clic en el boton {string}")
+    public void clicamosBoton(String boton){
+        if (boton.equals("Register")) {
+            try {
+                Thread.sleep(20000);
+                WebElement botonBuscado = driver.findElement(By.xpath(".//button[contains(text(),'Register')]"));
+                boolean botonEncontrado = botonBuscado.isEnabled();
+                Assertions.assertTrue(botonEncontrado);
+                botonBuscado.click();
+                Thread.sleep(3000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
     }
 
     @When("Clicamos en {string}")
@@ -108,6 +123,30 @@ public class WebStepDefinitions {
         }
         if (elementoClicado.equals("BorrarKierra")) {
             WebElement boton = driver.findElement(By.id("delete-record-3"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("New User")) {
+            driver.get("https://demoqa.com/login");
+            WebElement boton = driver.findElement(By.xpath(".//button[contains(text(),'New User')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Login")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[contains(text(),'Login')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(5000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
+        if (elementoClicado.equals("Logout")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='submit']"));
             boolean botonEncontrado = boton.isEnabled();
             Assertions.assertTrue(botonEncontrado);
             boton.click();
@@ -181,6 +220,14 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(byXPath).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("User exists!")){
+            boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'"+element+"')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Invalid username or password!")){
+            boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'"+element+"')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
     }
 
     @Then("No debería ver {string}")
@@ -209,6 +256,13 @@ public class WebStepDefinitions {
             By byXPath = By.xpath(".//div[contains(text(),'"+element+"')]");
             boolean encontrado = driver.findElements(byXPath).size() > 0;
             Assertions.assertFalse(encontrado);
+        }
+    }
+
+    @When("Cambiamos a la página {string}")
+    public void cambioDePagina(String pagina){
+        if (pagina.equals("login")){
+            driver.get("https://demoqa.com/login");
         }
     }
 
@@ -268,6 +322,41 @@ public class WebStepDefinitions {
             elemento.sendKeys("Garcia");
             Assertions.assertTrue(elemento.getAttribute("value").contains("Garcia"));
         }
+        if (texto.equals("Tom")){
+            WebElement elemento = driver.findElement(By.id("firstname"));
+            elemento.sendKeys("Tom");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Tom"));
+        }
+        if (texto.equals("Anderson")){
+            WebElement elemento = driver.findElement(By.id("lastname"));
+            elemento.sendKeys("Anderson");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Anderson"));
+        }
+        if (texto.equals("tomanderson")){
+            WebElement elemento = driver.findElement(By.id("userName"));
+            elemento.sendKeys("tomanderson");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("tomanderson"));
+        }
+        if (texto.equals("Tomanderson1993*")){
+            WebElement elemento = driver.findElement(By.id("password"));
+            elemento.sendKeys("Tomanderson1993*");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Tomanderson1993*"));
+        }
+        if (texto.equals("username")){
+            WebElement elemento = driver.findElement(By.id("userName"));
+            elemento.sendKeys("tomanderson");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("tomanderson"));
+        }
+        if (texto.equals("usernameFalso")){
+            WebElement elemento = driver.findElement(By.id("userName"));
+            elemento.sendKeys("tomandersonFalso");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("tomandersonFalso"));
+        }
+        if (texto.equals("password")){
+            WebElement elemento = driver.findElement(By.id("password"));
+            elemento.sendKeys("Tomanderson1993*");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Tomanderson1993*"));
+        }
     }
 
     @Then("Borro {string}")
@@ -313,6 +402,7 @@ public class WebStepDefinitions {
             WebElement boton = driver.findElement(By.id("submit"));
             boton.click();
         }
+
     }
 
     @And("Hago una captura de pantalla con el filename {string}")
