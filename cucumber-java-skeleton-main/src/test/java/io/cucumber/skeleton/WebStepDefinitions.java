@@ -7,6 +7,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
+import org.junit.platform.commons.function.Try;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -212,6 +213,63 @@ public class WebStepDefinitions {
             }
             driver.switchTo().alert().accept();
         }
+        if (elementoClicado.equals("boton alert")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='alertButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            driver.switchTo().alert().accept();
+        }
+        if (elementoClicado.equals("boton segundos")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='timerAlertButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(6000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+            driver.switchTo().alert().accept();
+        }
+        if (elementoClicado.equals("boton ok")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='confirmButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            driver.switchTo().alert().accept();
+        }
+        if (elementoClicado.equals("boton box")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='promtButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            driver.switchTo().alert().accept();
+        }
+        if (elementoClicado.equals("Small modal")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='showSmallModal']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Close Small")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='closeSmallModal']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Close Large")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='closeLargeModal']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Large modal")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='showLargeModal']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
     }
 
     @Then("Deberia ver un apartado {string}")
@@ -294,6 +352,35 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(By.xpath(".//a[contains(text(),'"+element+"')]")).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("Ok")){
+            boolean encontrado = driver.findElements(By.xpath(".//span[@id='confirmResult']")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("DosFrames")){
+            boolean primerFrame = driver.findElements(By.id("frame1")).size() > 0;
+            Assertions.assertTrue(primerFrame);
+            boolean segundoFrame = driver.findElements(By.id("frame2")).size() > 0;
+            Assertions.assertTrue(segundoFrame);
+        }
+        if (element.equals("Small Modal")){
+            boolean encontrado = driver.findElements(By.xpath(".//div[@id='example-modal-sizes-title-sm']")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Large Modal")){
+            boolean encontrado = driver.findElements(By.xpath(".//div[@id='example-modal-sizes-title-lg']")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+    }
+
+    @Then("Cambio tamaño de pantalla")
+    public void yoCambiotamaño(){
+        Dimension dimension = new Dimension(900, 1000);
+        driver.manage().window().setSize(dimension);
+        try{
+            Thread.sleep(2000);
+        }catch (Exception e){
+            e.getMessage();
+        }
     }
 
     @Then("Hacemos log out del usuario")
@@ -303,6 +390,7 @@ public class WebStepDefinitions {
         Assertions.assertTrue(botonEncontrado);
         boton.click();
     }
+
     @Then("No debería ver {string}")
     public void yoNoDeberiaVerApartado(String element){
         if (element.equals("Documents")){
@@ -339,6 +427,15 @@ public class WebStepDefinitions {
         }
         if (pagina.equals("profile")){
             driver.get("https://demoqa.com/profile");
+        }
+        if (pagina.equals("alerts")){
+            driver.get("https://demoqa.com/alerts");
+        }
+        if (pagina.equals("frames")){
+            driver.get("https://demoqa.com/frames");
+        }
+        if (pagina.equals("modal-dialogs")){
+            driver.get("https://demoqa.com/modal-dialogs");
         }
     }
 
