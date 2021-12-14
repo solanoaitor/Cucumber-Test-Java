@@ -4,6 +4,7 @@ Feature: Registrarse como usuario en la tienda
 
   Scenario: Registramos usuario que ya existe y lo comprobamos
     Given Vamos a la página de inicio
+    When Cambiamos a la página "login"
     When Clicamos en "New User"
     When Yo escribo "Tom"
     When Yo escribo "Anderson"

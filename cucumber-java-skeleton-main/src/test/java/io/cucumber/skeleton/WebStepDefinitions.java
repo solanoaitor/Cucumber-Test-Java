@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import javax.lang.model.element.Element;
+
 public class WebStepDefinitions {
 
     /**
@@ -45,6 +47,9 @@ public class WebStepDefinitions {
     @Then("Haremos clic en el boton {string}")
     public void clicamosBoton(String boton){
         if (boton.equals("Register")) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,350)", "");
+
             try {
                 Thread.sleep(20000);
                 WebElement botonBuscado = driver.findElement(By.xpath(".//button[contains(text(),'Register')]"));
@@ -52,6 +57,7 @@ public class WebStepDefinitions {
                 Assertions.assertTrue(botonEncontrado);
                 botonBuscado.click();
                 Thread.sleep(3000);
+
             }catch (Exception e){
                 e.getMessage();
             }
@@ -128,7 +134,6 @@ public class WebStepDefinitions {
             boton.click();
         }
         if (elementoClicado.equals("New User")) {
-            driver.get("https://demoqa.com/login");
             WebElement boton = driver.findElement(By.xpath(".//button[contains(text(),'New User')]"));
             boolean botonEncontrado = boton.isEnabled();
             Assertions.assertTrue(botonEncontrado);
@@ -140,7 +145,7 @@ public class WebStepDefinitions {
             Assertions.assertTrue(botonEncontrado);
             boton.click();
             try {
-                Thread.sleep(5000);
+                Thread.sleep(3000);
             }catch (Exception e){
                 e.getMessage();
             }
@@ -150,6 +155,62 @@ public class WebStepDefinitions {
             boolean botonEncontrado = boton.isEnabled();
             Assertions.assertTrue(botonEncontrado);
             boton.click();
+        }
+        if (elementoClicado.equals("Book_Store")) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,350)", "");
+            WebElement boton = driver.findElement(By.xpath(".//button[contains(text(),'Go To Book Store')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(3000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
+        if (elementoClicado.equals("Git_Pocket_Guide")) {
+            WebElement boton = driver.findElement(By.xpath(".//a[contains(text(),'Git Pocket Guide')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
+        if (elementoClicado.equals("Add_To_Your_Collection")) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,350)", "");
+            WebElement boton = driver.findElement(By.xpath(".//button[contains(text(),'Add To Your Collection')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+            driver.switchTo().alert().accept();
+        }
+        if (elementoClicado.equals("BorrarLibro")) {
+            WebElement boton = driver.findElement(By.xpath(".//span[@id='delete-record-undefined']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("OK")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='closeSmallModal-ok']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+            driver.switchTo().alert().accept();
         }
     }
 
@@ -221,6 +282,7 @@ public class WebStepDefinitions {
             Assertions.assertTrue(encontrado);
         }
         if (element.equals("User exists!")){
+
             boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'"+element+"')]")).size() > 0;
             Assertions.assertTrue(encontrado);
         }
@@ -228,8 +290,19 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'"+element+"')]")).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("Speaking JavaScript")){
+            boolean encontrado = driver.findElements(By.xpath(".//a[contains(text(),'"+element+"')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
     }
 
+    @Then("Hacemos log out del usuario")
+    public void yoHagoLogOut(){
+        WebElement boton = driver.findElement(By.xpath(".//button[@id='submit']"));
+        boolean botonEncontrado = boton.isEnabled();
+        Assertions.assertTrue(botonEncontrado);
+        boton.click();
+    }
     @Then("No debería ver {string}")
     public void yoNoDeberiaVerApartado(String element){
         if (element.equals("Documents")){
@@ -263,6 +336,9 @@ public class WebStepDefinitions {
     public void cambioDePagina(String pagina){
         if (pagina.equals("login")){
             driver.get("https://demoqa.com/login");
+        }
+        if (pagina.equals("profile")){
+            driver.get("https://demoqa.com/profile");
         }
     }
 
@@ -323,6 +399,11 @@ public class WebStepDefinitions {
             Assertions.assertTrue(elemento.getAttribute("value").contains("Garcia"));
         }
         if (texto.equals("Tom")){
+            try {
+                Thread.sleep(5000);
+            }catch (Exception e){
+                e.getMessage();
+            }
             WebElement elemento = driver.findElement(By.id("firstname"));
             elemento.sendKeys("Tom");
             Assertions.assertTrue(elemento.getAttribute("value").contains("Tom"));
@@ -356,6 +437,11 @@ public class WebStepDefinitions {
             WebElement elemento = driver.findElement(By.id("password"));
             elemento.sendKeys("Tomanderson1993*");
             Assertions.assertTrue(elemento.getAttribute("value").contains("Tomanderson1993*"));
+        }
+        if (texto.equals("Speaking JavaScript")){
+            WebElement elemento = driver.findElement(By.id("searchBox"));
+            elemento.sendKeys("Speaking JavaScript");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("Speaking JavaScript"));
         }
     }
 
@@ -402,7 +488,10 @@ public class WebStepDefinitions {
             WebElement boton = driver.findElement(By.id("submit"));
             boton.click();
         }
-
+        if (apartado.equals("Type to search")){
+            WebElement boton = driver.findElement(By.id("searchBox"));
+            boton.click();
+        }
     }
 
     @And("Hago una captura de pantalla con el filename {string}")
