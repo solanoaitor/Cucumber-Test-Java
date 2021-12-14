@@ -270,6 +270,60 @@ public class WebStepDefinitions {
             Assertions.assertTrue(botonEncontrado);
             boton.click();
         }
+        if (elementoClicado.equals("What")) {
+            WebElement boton = driver.findElement(By.xpath(".//div[@id='section1Content']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Where")) {
+            WebElement boton = driver.findElement(By.xpath(".//div[@id='section2Heading']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Why")) {
+            JavascriptExecutor js = (JavascriptExecutor) driver;
+            js.executeScript("window.scrollBy(0,350)", "");
+            WebElement boton = driver.findElement(By.xpath(".//div[@id='section3Heading']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("multiple")) {
+            WebElement boton = driver.findElement(By.xpath(".//input[@id='autoCompleteMultipleInput']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("sinle")) {
+            WebElement boton = driver.findElement(By.xpath(".//input[@id='autoCompleteSingleInput']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Start")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='startStopButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(2000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
+        if (elementoClicado.equals("Stop")) {
+            WebElement boton = driver.findElement(By.xpath(".//button[@id='startStopButton']"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+            try {
+                Thread.sleep(5000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
     }
 
     @Then("Deberia ver un apartado {string}")
@@ -370,6 +424,18 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(By.xpath(".//div[@id='example-modal-sizes-title-lg']")).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("Lorem")){
+            boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'Lorem')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("Contrary")){
+            boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'Contrary')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
+        if (element.equals("English")){
+            boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'English')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
     }
 
     @Then("Cambio tamaño de pantalla")
@@ -436,6 +502,15 @@ public class WebStepDefinitions {
         }
         if (pagina.equals("modal-dialogs")){
             driver.get("https://demoqa.com/modal-dialogs");
+        }
+        if (pagina.equals("accordian")){
+            driver.get("https://demoqa.com/accordian");
+        }
+        if (pagina.equals("auto-complete")){
+            driver.get("https://demoqa.com/auto-complete");
+        }
+        if (pagina.equals("progress-bar")){
+            driver.get("https://demoqa.com/progress-bar");
         }
     }
 
@@ -539,6 +614,18 @@ public class WebStepDefinitions {
             WebElement elemento = driver.findElement(By.id("searchBox"));
             elemento.sendKeys("Speaking JavaScript");
             Assertions.assertTrue(elemento.getAttribute("value").contains("Speaking JavaScript"));
+        }
+        if (texto.equals("R")){
+            WebElement elemento = driver.findElement(By.id("autoCompleteMultipleInput"));
+            elemento.sendKeys("R");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("R"));
+            elemento.sendKeys(Keys.ENTER);
+        }
+        if (texto.equals("B")){
+            WebElement elemento = driver.findElement(By.id("autoCompleteSingleInput"));
+            elemento.sendKeys("B");
+            Assertions.assertTrue(elemento.getAttribute("value").contains("B"));
+            elemento.sendKeys(Keys.ENTER);
         }
     }
 
