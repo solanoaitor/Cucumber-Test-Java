@@ -1,18 +1,18 @@
 package io.cucumber.skeleton;
 
-
 import io.cucumber.java.*;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
-import org.junit.platform.commons.function.Try;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
-import javax.lang.model.element.Element;
-
+/**
+ * Clase de steps utilizados para nuestros diferentes escenarios
+ */
 public class WebStepDefinitions {
 
     /**
@@ -20,10 +20,12 @@ public class WebStepDefinitions {
      *       https://chromedriver.chromium.org/downloads
      *       The version must match with the version of your Chrome browser
      */
-
     private static WebDriver driver;
     private Scenario scenario;
 
+    /**
+     * Método para definir nuestro driver
+     */
     @BeforeAll
     public static void setUp() {
         //this.scenario = scenario;
@@ -31,11 +33,18 @@ public class WebStepDefinitions {
         driver = new ChromeDriver();
     }
 
+    /**
+     * Método para comenzar a utilizar nuestros escenarios
+     * @param scenario
+     */
     @Before
     public void before(Scenario scenario){
         this.scenario = scenario;
     }
 
+    /**
+     * Método utilizado en cada escenario para empezar a utilizar la página web
+     */
     @Given("Vamos a la página de inicio")
     public void yoVoyPaginaPrincipal() {
         driver.get("https://demoqa.com");
@@ -43,7 +52,7 @@ public class WebStepDefinitions {
 
     /**
      * Método para clicar el boton con un CAPTCHA y hacerlo manual, tendremos 20 segundos
-     * @param boton: le pasaremos el nombre del boton
+     * @param boton: le pasaremos el nombre del botón
      */
     @Then("Haremos clic en el boton {string}")
     public void clicamosBoton(String boton){
@@ -65,6 +74,10 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método utilizado para todo aquello que necesitemos hacer click con el ratón
+     * @param elementoClicado: elemento buscado previamente y visualizado para hacer click
+     */
     @When("Clicamos en {string}")
     public void clicarEn(String elementoClicado){
         if (elementoClicado.equals("Elements")) {
@@ -324,8 +337,80 @@ public class WebStepDefinitions {
                 e.getMessage();
             }
         }
+        if (elementoClicado.equals("Dapibus")) {
+            WebElement boton = driver.findElement(By.xpath(".//li[contains(text(),'Dapibus ac facilisis in')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Porta")) {
+            WebElement boton = driver.findElement(By.xpath(".//li[contains(text(),'Porta ac consectetur ac')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Grid")) {
+            WebElement boton = driver.findElement(By.xpath(".//a[contains(text(),'Grid')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("One")) {
+            WebElement boton = driver.findElement(By.xpath(".//li[contains(text(),'One')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Five")) {
+            WebElement boton = driver.findElement(By.xpath(".//li[contains(text(),'Five')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Seven")) {
+            WebElement boton = driver.findElement(By.xpath(".//li[contains(text(),'Seven')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Drag")) {
+            Actions action = new Actions(driver);
+            WebElement elemento = driver.findElement(By.xpath(".//div[@id='draggable']"));
+            WebElement elemento2 = driver.findElement(By.xpath(".//div[@id='droppable']"));
+            boolean botonEncontrado = elemento.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            action.dragAndDrop(elemento,elemento2).perform();
+            try {
+                Thread.sleep(1000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
+        if (elementoClicado.equals("Prevent Propogation")) {
+            WebElement boton = driver.findElement(By.xpath(".//a[contains(text(),'Prevent Propogation')]"));
+            boolean botonEncontrado = boton.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            boton.click();
+        }
+        if (elementoClicado.equals("Drag Me")) {
+            Actions action = new Actions(driver);
+            WebElement elemento = driver.findElement(By.xpath(".//div[@id='dragBox']"));
+            WebElement elemento2 = driver.findElement(By.xpath(".//div[@id='notGreedyInnerDropBox']"));
+            boolean botonEncontrado = elemento.isEnabled();
+            Assertions.assertTrue(botonEncontrado);
+            action.dragAndDrop(elemento,elemento2).perform();
+            try {
+                Thread.sleep(1000);
+            }catch (Exception e){
+                e.getMessage();
+            }
+        }
     }
 
+    /**
+     * Método que utilizaremos para comprobar que vemos algún elemento
+     * @param element
+     */
     @Then("Deberia ver un apartado {string}")
     public void yoDeberiaVerApartado(String element) {
         if (element.equals("Elements")){
@@ -436,8 +521,15 @@ public class WebStepDefinitions {
             boolean encontrado = driver.findElements(By.xpath(".//p[contains(text(),'English')]")).size() > 0;
             Assertions.assertTrue(encontrado);
         }
+        if (element.equals("Drag me")){
+            boolean encontrado = driver.findElements(By.xpath(".//div[contains(text(),'Drag me')]")).size() > 0;
+            Assertions.assertTrue(encontrado);
+        }
     }
 
+    /**
+     * Método que utilizaremos para redimensionar la pantalla
+     */
     @Then("Cambio tamaño de pantalla")
     public void yoCambiotamaño(){
         Dimension dimension = new Dimension(900, 1000);
@@ -449,14 +541,26 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método que utilizaremos siempre para cerrar sesión del usuario
+     */
     @Then("Hacemos log out del usuario")
     public void yoHagoLogOut(){
+        try {
+            Thread.sleep(3000);
+        }catch (Exception e){
+            e.getMessage();
+        }
         WebElement boton = driver.findElement(By.xpath(".//button[@id='submit']"));
         boolean botonEncontrado = boton.isEnabled();
         Assertions.assertTrue(botonEncontrado);
         boton.click();
     }
 
+    /**
+     * Método para comprobar que vemos algún elemento
+     * @param element: elemento que no deberíamos ver
+     */
     @Then("No debería ver {string}")
     public void yoNoDeberiaVerApartado(String element){
         if (element.equals("Documents")){
@@ -486,6 +590,10 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método que utilizaremos para realizar el cambio de páginas y poder interactuar con ella
+     * @param pagina
+     */
     @When("Cambiamos a la página {string}")
     public void cambioDePagina(String pagina){
         if (pagina.equals("login")){
@@ -512,8 +620,18 @@ public class WebStepDefinitions {
         if (pagina.equals("progress-bar")){
             driver.get("https://demoqa.com/progress-bar");
         }
+        if (pagina.equals("selectable")){
+            driver.get("https://demoqa.com/selectable");
+        }
+        if (pagina.equals("droppable")){
+            driver.get("https://demoqa.com/droppable");
+        }
     }
 
+    /**
+     * Método utilizado para escribir en cualquier elemento
+     * @param texto: será el texto que escribiremos
+     */
     @When("Yo escribo {string}")
     public void yoEscribo(String texto) {
         if (texto.equals("Aitor")){
@@ -629,6 +747,10 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método utilizado para borrar algun texto escrito
+     * @param borro: pasaremos el elemento que queremos borrar
+     */
     @Then("Borro {string}")
     public void yoBorroLoEscrito(String borro) {
 
@@ -638,6 +760,10 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método para pulsar o clicar en un apartado que queramos
+     * @param apartado: le indicaremos el apartado a seleccionar
+     */
     @Then("Hago click en el siguiente apartado {string}")
     public void yoClicoSiguienteApartado(String apartado) {
         if (apartado.equals("Email")){
@@ -678,12 +804,19 @@ public class WebStepDefinitions {
         }
     }
 
+    /**
+     * Método para realizar una captura de pantalla y comprobar que hemos hecho interacciones
+     * @param filename: será el nombre del fichero de la captura
+     */
     @And("Hago una captura de pantalla con el filename {string}")
     public void yoHagoScreenshotConFileName(String filename) {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         scenario.attach(screenshot, "image/png", filename);
     }
 
+    /**
+     * Método para cerrar el driver
+     */
     @AfterAll()
     public static void tearDown() {
         driver.quit();
